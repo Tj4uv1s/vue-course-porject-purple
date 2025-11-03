@@ -1,42 +1,61 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue"
+import { ref, computed } from "vue"
+
+const name = ref("1984")
+const author = ref("Джордж Оруэлл")
+const year = ref("1949")
+const genre = ref("антиутопия")
+const genreClass = computed(() =>
+	genre.value === "антиутопия" ? "red" : "yellow"
+)
 </script>
 
 <template>
-	<div>
-		<a href="https://vite.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vite.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vite.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vite.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vite.dev" target="_blank">
-			<img src="/vite.svg" class="logo" alt="Vite logo" />
-		</a>
-		<a href="https://vuejs.org/" target="_blank">
-			<img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-		</a>
-	</div>
-	<HelloWorld msg="Vite + Vue" />
+	<header class="header">header</header>
+	<main>
+		<div :class="statusClass">
+			<h2>{{ name }}</h2>
+			<p>автор: {{ author }}</p>
+			<p>Год издания: {{ year }}</p>
+			<p :class="genreClass">Жанр: {{ genre }}</p>
+		</div>
+	</main>
+	<footer class="footer">footer</footer>
 </template>
 
 <style scoped>
-.logo {
-	height: 6em;
-	padding: 1.5em;
-	will-change: filter;
-	transition: filter 300ms;
+div {
+	background-color: #d4edda;
+	color: #155724;
+	padding: 1rem;
+	border-radius: 0.5rem;
 }
-.logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
+
+.statusClass {
+	font-weight: bold;
 }
-.logo.vue:hover {
-	filter: drop-shadow(0 0 2em #42b883aa);
+
+.yellow {
+	color: yellow;
+	background: #000;
+}
+
+.red {
+	color: red;
+	background: #000;
+}
+
+header.header {
+	background-color: #20bb95;
+	color: white;
+	padding: 1rem;
+	text-align: center;
+}
+
+footer.footer {
+	background-color: #4913d0;
+	color: white;
+	padding: 1rem;
+	text-align: center;
 }
 </style>
