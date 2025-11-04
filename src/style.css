@@ -3,4 +3,23 @@
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	--card-bg-color: #222831;
+	--main-bg-color: #343d4b;
+	--primary-color: #fff;
+	--primary-color-inverted: #000;
+	--gradient-bg: linear-gradient(135deg, #90d9e0e5 0%, #5460e6e5 100%);
+	--gradient-bg-inverted: linear-gradient(135deg, #5460e6e5 0%, #90d9e0e5 100%);
+
+	--main-font: "Montserrat", sans-serif;
+}
+
+body {
+	font-family: var(--main-font);
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	background-color: var(--main-bg-color);
+	color: var(--primary-color);
 }

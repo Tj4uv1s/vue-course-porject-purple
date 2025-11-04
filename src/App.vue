@@ -1,61 +1,61 @@
 <script setup>
-import { ref, computed } from "vue"
+import Button from "./components/button.vue"
+import Stat from "./components/stat.vue"
 
-const name = ref("1984")
-const author = ref("Джордж Оруэлл")
-const year = ref("1949")
-const genre = ref("антиутопия")
-const genreClass = computed(() =>
-	genre.value === "антиутопия" ? "red" : "yellow"
-)
+const data = {
+	wet: {
+		label: "ВЛАЖНОСТЬ",
+		stat: "90%",
+	},
+	rain: {
+		label: "ОСАДКИ",
+		stat: "0%",
+	},
+	wind: {
+		label: "ВЕТЕР",
+		stat: "3 м/ч%",
+	},
+}
 </script>
 
 <template>
-	<header class="header">header</header>
-	<main>
-		<div :class="statusClass">
-			<h2>{{ name }}</h2>
-			<p>автор: {{ author }}</p>
-			<p>Год издания: {{ year }}</p>
-			<p :class="genreClass">Жанр: {{ genre }}</p>
+	<div class="container">
+		<div class="main">
+			<Stat v-bind="data.wet" />
+			<Stat v-bind="data.rain" />
+			<Stat v-bind="data.wind" />
+			<Button>
+				<img src="./assets/location.svg" alt="Save Icon" />
+				Изменить город
+			</Button>
 		</div>
-	</main>
-	<footer class="footer">footer</footer>
+	</div>
 </template>
 
 <style scoped>
-div {
-	background-color: #d4edda;
-	color: #155724;
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	width: 100%;
 	padding: 1rem;
-	border-radius: 0.5rem;
+	box-sizing: border-box;
 }
 
-.statusClass {
-	font-weight: bold;
-}
-
-.yellow {
-	color: yellow;
-	background: #000;
-}
-
-.red {
-	color: red;
-	background: #000;
-}
-
-header.header {
-	background-color: #20bb95;
-	color: white;
-	padding: 1rem;
-	text-align: center;
-}
-
-footer.footer {
-	background-color: #4913d0;
-	color: white;
-	padding: 1rem;
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	max-width: 944px;
+	width: 100%;
+	max-height: 623px;
+	height: auto;
+	padding: 60px 50px;
+	background: var(--card-bg-color);
+	border-radius: 25px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 	text-align: center;
 }
 </style>
