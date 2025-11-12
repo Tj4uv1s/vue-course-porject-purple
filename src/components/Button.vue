@@ -2,7 +2,6 @@
 
 <template>
 	<button class="button">
-		<div><slot name="icon" /></div>
 		<slot />
 	</button>
 </template>
@@ -26,7 +25,15 @@ button.button {
 	transition: background 0.3s ease;
 }
 
-button.button:hover {
+button.button:hover:not(:disabled) {
 	background: var(--gradient-bg-inverted);
+}
+
+/* Стили для disabled состояния */
+button.button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+	background: #ccc;
+	color: #666;
 }
 </style>

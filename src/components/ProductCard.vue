@@ -1,37 +1,62 @@
 <script setup>
-import Button from "./button.vue"
+import Button from "./Button.vue"
+
+const { name, price, category, inStock } = defineProps({
+	name: {
+		type: String,
+		required: true,
+	},
+	price: {
+		type: Number,
+		required: true,
+	},
+	category: {
+		type: String,
+		required: true,
+	},
+	inStock: {
+		type: Boolean,
+		required: true,
+	},
+})
+
+const emit = defineEmits(["add-to-cart"])
+
+const addToCart = () => {
+	if (!inStock) return
+
+	emit("add-to-cart", {
+		name: name,
+		price: price,
+		category: category,
+		inStock: inStock,
+	})
+}
 </script>
 
 <template>
-	<section class="product-card">
-		<header><slot name="name"></slot></header>
-		<content class="product-card__desc"
-			><slot name="description"></slot
-		></content>
-		<action><Button>Купить</Button></action>
-		<slot />
-	</section>
+	<div class="product-card">
+		<h1>{{ name }}</h1>
+		<p>{{ price }} руб.</p>
+		<p>{{ category }}</p>
+		<Button :disabled="!inStock" @click="addToCart">Добавить в корзину</Button>
+	</div>
 </template>
 
 <style scoped>
 .product-card {
 	display: flex;
 	flex-direction: column;
-	align-items: start;
-	color: #000;
-	padding: 1rem;
-	border-radius: 12px;
-	background: white;
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+	justify-content: center;
+	align-items: center;
+	max-width: 944px;
+	width: 100%;
+	max-height: 623px;
+	height: auto;
+	padding: 60px 50px;
+	background: var(--card-bg-color);
+	border-radius: 25px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 	text-align: center;
-}
-.product-card__name {
-	font-weight: 700;
-}
-.product-card__role {
-	font-weight: 500;
-}
-.product-card__status {
-	font-weight: 400;
 }
 </style>

@@ -1,36 +1,69 @@
 <script setup>
-import Button from "./components/button.vue"
-import Stat from "./components/stat.vue"
+import Stat from "./components/Stat.vue"
+import CitySelect from "./components/CitySelect.vue"
+import { reactive, ref, computed } from "vue"
 
-const data = {
+const data = reactive({
 	wet: {
-		label: "ВЛАЖНОСТЬ",
-		stat: "90%",
+		label: "wet",
+		stat: "90",
 	},
 	rain: {
-		label: "ОСАДКИ",
-		stat: "0%",
+		label: "rain",
+		stat: "0",
 	},
 	wind: {
-		label: "ВЕТЕР",
-		stat: "3 м/ч%",
+		label: "wind",
+		stat: "3",
 	},
+})
+
+const computedData = computed(() => {
+	return {
+		wet: { label: data.wet.label, stat: data.wet.stat + "%" },
+		rain: { label: data.rain.label, stat: data.rain.stat + "%" },
+		wind: { label: data.wind.label, stat: data.wind.stat + "m/h" },
+	}
+})
+
+let isEdited = ref(false)
+
+const props = defineProps({
+	isEdited: Boolean,
+})
+
+const emit = defineEmits(["update:isEdited"])
+
+function getCity(Boolean) {
+	isEdited.value = Boolean
+	emit("update:isEdited", isEdited.value)
 }
 </script>
 
 <template>
 	<div class="container">
 		<div class="main">
-			<Stat v-bind="data.wet" />
+			{{ isEdited }}
+			<Stat v-bind="computedData.wet" />
 			<Stat v-bind="data.rain" />
 			<Stat v-bind="data.wind" />
-			<Button>
-				<img src="./assets/location.svg" alt="Save Icon" />
-				Изменить город
-			</Button>
+			<CitySelect @city-change="getCity"></CitySelect>
 		</div>
 	</div>
 </template>
+
+<style scoped>
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	width: 100%;
+	padding: 1rem;
+	box-sizing: border-box;
+}
+</style>
 
 <style scoped>
 .container {

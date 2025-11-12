@@ -26,6 +26,7 @@ const { label = "Нет данных", stat = "Нет данных" } = definePr
 .stat-name {
 	font-weight: 700;
 	color: #c8ccd4;
+	text-transform: uppercase;
 }
 .stat-value {
 	font-weight: 500;

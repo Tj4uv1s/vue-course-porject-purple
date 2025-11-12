@@ -14,7 +14,16 @@ export default [
 		},
 		rules: {
 			"vue/multi-word-component-names": "off",
-			"vue/require-default-prop": "off",
+			languageOptions: {
+				ecmaVersion: "latest",
+				sourceType: "module",
+				// declare common globals used in browser code so eslint doesn't report them as undefined
+				globals: {
+					console: "readonly",
+					window: "readonly",
+					document: "readonly",
+				},
+			},
 		},
 	},
 ]
