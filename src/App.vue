@@ -1,69 +1,52 @@
 <script setup>
 import Stat from "./components/Stat.vue"
 import CitySelect from "./components/CitySelect.vue"
-import { reactive, ref, computed } from "vue"
+import { ref, computed } from "vue"
 
-const data = reactive({
-	wet: {
-		label: "wet",
-		stat: "90",
-	},
-	rain: {
-		label: "rain",
-		stat: "0",
-	},
-	wind: {
-		label: "wind",
-		stat: "3",
-	},
+const data = ref({
+	humidity: 90,
+	rain: 0,
+	wind: 23,
 })
 
-const computedData = computed(() => {
-	return {
-		wet: { label: data.wet.label, stat: data.wet.stat + "%" },
-		rain: { label: data.rain.label, stat: data.rain.stat + "%" },
-		wind: { label: data.wind.label, stat: data.wind.stat + "m/h" },
-	}
+const dataModified = computed(() => {
+	return [
+		{ label: "Wet", stat: data.value.humidity + "%" },
+		{ label: "Rain", stat: data.value.rain + "%" },
+		{ label: "Wind", stat: data.value.wind + "m/h" },
+	]
 })
 
-let isEdited = ref(false)
+let isEdit = ref(false)
 
-const props = defineProps({
-	isEdited: Boolean,
-})
+const API_ENDPOINT = "https://api.weatherapi.com/v1"
 
-const emit = defineEmits(["update:isEdited"])
+async function getCity(value) {
+	console.log(`	City edit: ${value}`)
 
-function getCity(Boolean) {
-	isEdited.value = Boolean
-	emit("update:isEdited", isEdited.value)
+	const params = new URLSearchParams({
+		q: value,
+		lang: "en",
+		key: "766a040f89c44a559c3145211251311",
+		days: 3,
+	})
+
+	const response = await fetch(
+		`${API_ENDPOINT}/forecast.json?${params.toString()}`
+	)
+	const data = await response.json()
+	console.log(data)
 }
 </script>
 
 <template>
 	<div class="container">
 		<div class="main">
-			{{ isEdited }}
-			<Stat v-bind="computedData.wet" />
-			<Stat v-bind="data.rain" />
-			<Stat v-bind="data.wind" />
-			<CitySelect @city-change="getCity"></CitySelect>
+			<Stat v-bind="item" v-for="item in dataModified" :key="item.label"></Stat>
+			<CitySelect class="main__city-select" @city-select="getCity"></CitySelect>
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	width: 100%;
-	padding: 1rem;
-	box-sizing: border-box;
-}
-</style>
 
 <style scoped>
 .container {
@@ -88,7 +71,7 @@ function getCity(Boolean) {
 	padding: 60px 50px;
 	background: var(--card-bg-color);
 	border-radius: 25px;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 10px 30px var(--box-shadow-color);
 	text-align: center;
 }
 </style>

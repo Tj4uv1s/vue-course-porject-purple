@@ -1,5 +1,5 @@
 <script setup>
-const { label = "Нет данных", stat = "Нет данных" } = defineProps({
+const { label = "No data", stat = "No data" } = defineProps({
 	label: String,
 	stat: String,
 })
@@ -17,6 +17,8 @@ const { label = "Нет данных", stat = "Нет данных" } = definePr
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	font-size: 28px;
+
 	width: 415px;
 	max-width: 100%;
 	padding: 0.5rem 1rem;
@@ -24,12 +26,12 @@ const { label = "Нет данных", stat = "Нет данных" } = definePr
 	background: transparent;
 }
 .stat-name {
-	font-weight: 700;
+	font-weight: bold;
 	color: #c8ccd4;
 	text-transform: uppercase;
 }
 .stat-value {
-	font-weight: 500;
+	font-weight: medium;
 	color: #b4c2e2;
 }
 </style>

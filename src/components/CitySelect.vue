@@ -1,47 +1,58 @@
 <script setup>
 import Button from "./Button.vue"
+import Input from "./input.vue"
+import { onMounted, ref } from "vue"
 
 const emit = defineEmits({
-	cityChange(payload) {
-		return typeof payload === "boolean"
+	"city-select"(payload) {
+		return typeof payload === "string"
 	},
 })
 
-function changeCity(Boolean) {
-	emit("cityChange", Boolean)
+let city = ref("")
+
+onMounted(() => {
+	emit("city-select", city.value)
+})
+
+let isEdited = ref(false)
+
+function select() {
+	isEdited.value = false
+	emit("city-select", city.value)
+}
+
+function edit() {
+	isEdited.value = true
 }
 </script>
 <template>
-	<Button @click="changeCity(false)" v-if="isEdited === false">
-		<img src="../assets/location.svg" alt="Save Icon" />
-		Change city
-	</Button>
 	<div class="input-container">
-		<input
-			class="input-container__input"
-			placeholder="Input city name"
-			type="text"
-		/>
-		<Button @click="changeCity(true)" v-if="isEdited === true">Save</Button>
+		<Button class="change-city-btn" @click="edit" v-show="!isEdited">
+			<img src="../assets/location.svg" alt="Save Icon" />
+			Change city
+		</Button>
+		<div v-show="isEdited" class="input-container">
+			<Input v-model="city" placeholder="Enter the city" />
+			<Button class="save-btn" @click="select" v-show="isEdited">Save</Button>
+		</div>
 	</div>
 </template>
 <style>
 .input-container {
 	display: flex;
 	align-items: center;
-	gap: 10px;
-	margin-top: 20px;
+	gap: 12px;
+	margin-top: 14px;
 	width: 100%;
 	max-width: 415px;
 }
-.input-container__input {
-	flex: 1;
-	padding: 10px;
-	font-size: 16px;
-	background-color: #272e37;
-	border: none;
-	border-radius: 10px;
-	color: #fff;
-	height: 23px;
+
+button.save-btn {
+	max-width: 140px;
+}
+
+button.change-city-btn {
+	max-width: 415px;
 }
 </style>

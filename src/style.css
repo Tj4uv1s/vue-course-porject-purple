@@ -6,12 +6,18 @@
 
 	--card-bg-color: #222831;
 	--main-bg-color: #343d4b;
+	--box-shadow-color: rgba(0, 0, 0, 0.1);
+	--placeholder-color: #b0b8c1;
 	--primary-color: #fff;
 	--primary-color-inverted: #000;
 	--gradient-bg: linear-gradient(135deg, #90d9e0e5 0%, #5460e6e5 100%);
 	--gradient-bg-inverted: linear-gradient(135deg, #5460e6e5 0%, #90d9e0e5 100%);
 
 	--main-font: "Montserrat", sans-serif;
+}
+
+* {
+	box-sizing: border-box;
 }
 
 body {
