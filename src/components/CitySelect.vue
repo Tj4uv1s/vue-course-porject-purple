@@ -11,10 +11,6 @@ const emit = defineEmits({
 
 let city = ref("")
 
-onMounted(() => {
-	emit("city-select", city.value)
-})
-
 let isEdited = ref(false)
 
 function select() {
@@ -27,23 +23,35 @@ function edit() {
 }
 </script>
 <template>
-	<div class="input-container">
+	<div class="city-select-container">
 		<Button class="change-city-btn" @click="edit" v-show="!isEdited">
 			<img src="../assets/location.svg" alt="Save Icon" />
 			Change city
 		</Button>
 		<div v-show="isEdited" class="input-container">
-			<Input v-model="city" placeholder="Enter the city" />
+			<Input
+				v-model="city"
+				placeholder="Enter the city"
+				@keyup.enter="select"
+			/>
 			<Button class="save-btn" @click="select" v-show="isEdited">Save</Button>
 		</div>
 	</div>
 </template>
 <style>
+.city-select-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-top: 14px;
+	gap: 12px;
+	width: 100%;
+}
 .input-container {
 	display: flex;
 	align-items: center;
 	gap: 12px;
-	margin-top: 14px;
 	width: 100%;
 	max-width: 415px;
 }

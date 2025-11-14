@@ -6,10 +6,12 @@
 
 	--card-bg-color: #222831;
 	--main-bg-color: #343d4b;
+	--error-message-bg-color: #272e37;
 	--box-shadow-color: rgba(0, 0, 0, 0.1);
 	--placeholder-color: #b0b8c1;
 	--primary-color: #fff;
 	--primary-color-inverted: #000;
+	--error-message-color: var(--primary-color);
 	--gradient-bg: linear-gradient(135deg, #90d9e0e5 0%, #5460e6e5 100%);
 	--gradient-bg-inverted: linear-gradient(135deg, #5460e6e5 0%, #90d9e0e5 100%);
 
@@ -18,14 +20,14 @@
 
 * {
 	box-sizing: border-box;
+	font-family: var(--main-font), Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-	font-family: var(--main-font);
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
 	background-color: var(--main-bg-color);
 	color: var(--primary-color);
 }
