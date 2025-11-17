@@ -16,7 +16,12 @@ const { color, size } = defineProps({
 		width="54"
 		height="54"
 		viewBox="0 0 54 54"
-		:style="{ scale: size / 54 }"
+		:style="{
+			scale: size / 54,
+			transformOrigin: '0 0',
+			width: size + 'px',
+			height: size + 'px',
+		}"
 		fill="none"
 	>
 		<g clip-path="url(#clip0_102_40)">

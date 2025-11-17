@@ -3,18 +3,24 @@ import Stat from "./components/Stat.vue"
 import CitySelect from "./components/CitySelect.vue"
 import Error from "./components/Error.vue"
 import WeatherCard from "./components/WeatherCard.vue"
+import CurrentWeather from "./components/CurrentWeather.vue"
 
 import { computed, onMounted, reactive, ref } from "vue"
 
 const errorMessage = ref(null)
+const activeIndex = ref(0)
 const weatherDataDefault = reactive({
-	humidity: 0,
-	cloudy: 0,
-	wind: 0,
+	current: {
+		humidity: 0,
+		cloud: 0,
+		wind_mph: 0,
+	},
+	location: null,
+	forecast: null,
 })
 
 onMounted(() => {
-	getCity("Kiev")
+	getCity("Kyiv")
 })
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1"
@@ -51,9 +57,9 @@ function getUserMessage(type, message) {
 }
 
 const dataModified = computed(() => [
-	{ label: "Wet", stat: weatherDataDefault.humidity + "%" },
-	{ label: "Cloud", stat: weatherDataDefault.cloudy + "%" },
-	{ label: "Wind", stat: weatherDataDefault.wind + "m/h" },
+	{ label: "Wet", stat: weatherDataDefault.current.humidity + "%" },
+	{ label: "Cloud", stat: weatherDataDefault.current.cloud + "%" },
+	{ label: "Wind", stat: weatherDataDefault.current.wind_mph + "m/h" },
 ])
 
 async function getCity(value) {
@@ -81,28 +87,56 @@ async function getCity(value) {
 
 		console.log("Fetched data:", apiData)
 
-		weatherDataDefault.humidity = apiData.current.humidity
-		weatherDataDefault.cloudy = apiData.current.cloud
-		weatherDataDefault.wind = apiData.current.wind_mph
+		weatherDataDefault.current = apiData.current
+		weatherDataDefault.current = apiData.current
+		weatherDataDefault.current = apiData.current
+
+		weatherDataDefault.forecast = apiData.forecast
+		weatherDataDefault.location = apiData.location
 	} catch (error) {
 		errorMessage.value = createError("http_400", error.message)
 	}
 }
+
+console.log(weatherDataDefault)
 </script>
 
 <template>
 	<div class="container">
-		<div class="main">
-			<WeatherCard :weatherData="weatherDataDefault"></WeatherCard>
-			<Error @close="closeErr" :message="errorMessage"></Error>
-			<Stat v-bind="item" v-for="item in dataModified" :key="item.label"></Stat>
-			<CitySelect class="main__city-select" @city-select="getCity"></CitySelect>
+		<div class="wrapper">
+			<div class="side">
+				<CurrentWeather :weatherData="weatherDataDefault"></CurrentWeather>
+			</div>
+			<div class="main">
+				<Error @close="closeErr" :message="errorMessage"></Error>
+				<div class="main-weather-stat">
+					<Stat
+						v-bind="item"
+						v-for="item in dataModified"
+						:key="item.label"
+					></Stat>
+				</div>
+				<div class="main-weather-card" v-if="weatherDataDefault.forecast">
+					<WeatherCard
+						v-for="(item, index) in weatherDataDefault.forecast.forecastday"
+						:key="item.date"
+						:temp="item.day.avgtemp_c"
+						:date="new Date(item.date)"
+						:weather-code="item.day.condition.code"
+						:isActive="activeIndex == index"
+					></WeatherCard>
+				</div>
+				<CitySelect
+					class="main__city-select"
+					@city-select="getCity"
+				></CitySelect>
+			</div>
 		</div>
 	</div>
 </template>
 
 <style scoped>
-.container {
+div.container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -112,20 +146,57 @@ async function getCity(value) {
 	box-sizing: border-box;
 }
 
-.main {
+div.wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 1013px;
+	width: 100%;
+	height: 100%;
+}
+
+div.main {
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	max-width: 944px;
+	max-width: 500px;
 	width: 100%;
-	max-height: 623px;
-	height: auto;
-	padding: 60px 50px;
+	min-height: 620px;
+	padding: 50px 50px 60px 60px;
 	background: var(--card-bg-color);
-	border-radius: 25px;
+	border-radius: 0 25px 25px 0;
 	box-shadow: 0 10px 30px var(--box-shadow-color);
 	text-align: center;
+	gap: 40px;
+}
+
+div.main-weather-stat {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: 16px;
+}
+
+div.side {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 493px;
+	width: 100%;
+	height: 666px;
+	background-image: url(/src/assets/SunDay.jpg);
+	border-radius: 30px;
+}
+
+div.main-weather-card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: 1px;
 }
 </style>

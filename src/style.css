@@ -4,14 +4,18 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-	--card-bg-color: #222831;
 	--main-bg-color: #343d4b;
+	--card-bg-color: #222831;
+	--card-bg-inverted-color: #fff;
+	--card-bg-hover-color: #3a434f;
+
 	--error-message-bg-color: #272e37;
-	--box-shadow-color: rgba(0, 0, 0, 0.1);
+	--box-shadow-color: rgba(0, 0, 0, 0.2);
 	--placeholder-color: #b0b8c1;
-	--primary-color: #fff;
-	--primary-color-inverted: #000;
-	--error-message-color: var(--primary-color);
+
+	--primary-text-color: #fff;
+	--primary-text-color-inverted: #000;
+	--error-message-color: var(--primary-text-color);
 	--gradient-bg: linear-gradient(135deg, #90d9e0e5 0%, #5460e6e5 100%);
 	--gradient-bg-inverted: linear-gradient(135deg, #5460e6e5 0%, #90d9e0e5 100%);
 
@@ -21,6 +25,8 @@
 * {
 	box-sizing: border-box;
 	font-family: var(--main-font), Tahoma, Geneva, Verdana, sans-serif;
+	margin: 0;
+	padding: 0;
 }
 
 body {
@@ -29,5 +35,5 @@ body {
 	box-sizing: border-box;
 
 	background-color: var(--main-bg-color);
-	color: var(--primary-color);
+	color: var(--primary-text-color);
 }

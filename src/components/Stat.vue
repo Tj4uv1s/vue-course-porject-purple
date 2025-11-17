@@ -18,10 +18,7 @@ const { label = "No data", stat = "No data" } = defineProps({
 	justify-content: space-between;
 	align-items: center;
 	font-size: 28px;
-
-	width: 415px;
-	max-width: 100%;
-	padding: 0.5rem 1rem;
+	width: 100%;
 	border-radius: 8px;
 	background: transparent;
 }

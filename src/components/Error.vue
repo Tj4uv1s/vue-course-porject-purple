@@ -73,23 +73,21 @@ div.error {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 0 15px;
+	padding: 12px;
 	border-radius: 0 0 25px 25px;
 	top: 0;
 
 	background-color: var(--error-message-bg-color);
 	color: var(--error-message-color);
 	font-size: 18px;
-	font-weight: regular;
+	font-weight: normal;
 }
 
 button {
 	padding: 8px;
 	background: transparent;
-	color: white;
-	background: #808080;
+	color: var(--primary-text-color);
 	border: none;
-	border-radius: 4px;
 	cursor: pointer;
 }
 

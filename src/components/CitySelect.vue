@@ -1,7 +1,7 @@
 <script setup>
 import Button from "./Button.vue"
 import Input from "./input.vue"
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 
 const emit = defineEmits({
 	"city-select"(payload) {
@@ -24,17 +24,18 @@ function edit() {
 </script>
 <template>
 	<div class="city-select-container">
-		<Button class="change-city-btn" @click="edit" v-show="!isEdited">
+		<Button class="change-city-btn" @click="edit" v-if="!isEdited">
 			<img src="../assets/location.svg" alt="Save Icon" />
 			Change city
 		</Button>
-		<div v-show="isEdited" class="input-container">
+		<div v-if="isEdited" class="input-container">
 			<Input
 				v-model="city"
+				v-focus
 				placeholder="Enter the city"
 				@keyup.enter="select"
 			/>
-			<Button class="save-btn" @click="select" v-show="isEdited">Save</Button>
+			<Button class="save-btn" @click="select" v-if="isEdited">Save</Button>
 		</div>
 	</div>
 </template>
@@ -53,14 +54,9 @@ function edit() {
 	align-items: center;
 	gap: 12px;
 	width: 100%;
-	max-width: 415px;
 }
 
 button.save-btn {
 	max-width: 140px;
-}
-
-button.change-city-btn {
-	max-width: 415px;
 }
 </style>
