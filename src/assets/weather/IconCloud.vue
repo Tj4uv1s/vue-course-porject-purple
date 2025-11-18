@@ -17,8 +17,6 @@ const { color, size } = defineProps({
 		height="54"
 		viewBox="0 0 54 54"
 		:style="{
-			scale: size / 54,
-			transformOrigin: '0 0',
 			width: size + 'px',
 			height: size + 'px',
 		}"

@@ -1,7 +1,9 @@
 <script setup>
+import { defineProps } from "vue"
 const { label = "No data", stat = "No data" } = defineProps({
 	label: String,
 	stat: String,
+	index: Number,
 })
 </script>
 

@@ -1,21 +1,21 @@
 <script setup>
+import { cityProvide } from "../constants"
 import Button from "./Button.vue"
 import Input from "./input.vue"
-import { ref } from "vue"
-
-const emit = defineEmits({
-	"city-select"(payload) {
-		return typeof payload === "string"
-	},
-})
-
-let city = ref("")
+import { ref, inject } from "vue"
 
 let isEdited = ref(false)
+const city = inject(cityProvide)
+const inputValue = ref(city.value)
 
+const emit = defineEmits({
+	"city-select"(cityName) {
+		return typeof cityName === "string"
+	},
+})
 function select() {
 	isEdited.value = false
-	emit("city-select", city.value)
+	city.value = inputValue.value
 }
 
 function edit() {
@@ -30,7 +30,7 @@ function edit() {
 		</Button>
 		<div v-if="isEdited" class="input-container">
 			<Input
-				v-model="city"
+				v-model="inputValue"
 				v-focus
 				placeholder="Enter the city"
 				@keyup.enter="select"

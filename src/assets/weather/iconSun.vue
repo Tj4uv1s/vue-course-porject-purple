@@ -17,7 +17,10 @@ const { color, size } = defineProps({
 		width="55"
 		height="55"
 		viewBox="0 0 55 55"
-		:style="{ scale: size / 55 }"
+		:style="{
+			width: size + 'px',
+			height: size + 'px',
+		}"
 		fill="none"
 	>
 		<path

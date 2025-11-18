@@ -1,33 +1,75 @@
 <script setup>
 import IconSun from "../assets/weather/IconSun.vue"
-import { defineProps } from "vue"
+import IconCloud from "../assets/weather/IconCloud.vue"
+import IconRain from "../assets/weather/IconRain.vue"
+import { computed } from "vue"
 
-const props = defineProps({
+const { weatherData, activeIndex } = defineProps({
 	weatherData: {
 		type: Object,
 		required: true,
 	},
+	activeIndex: {
+		type: Number,
+		required: true,
+	},
 })
 
-console.log("props.weatherData" + JSON.stringify(props.weatherData))
+const iconCode = computed(
+	() => weatherData.forecast.forecastday[activeIndex].day.condition.code
+)
+
+console.log("weatherData code:", weatherData)
+console.log("Icon code:", iconCode)
 </script>
 <template>
 	<div class="current-weather-card">
 		<div class="current-weather-card-header">
-			<h2 class="current-weather-card-header-day">Thursday</h2>
-			<p class="current-weather-card-header-date">20 jul 2025</p>
+			<h2 class="current-weather-card-header-day">
+				{{
+					new Date(
+						weatherData.forecast.forecastday[activeIndex].date
+					).toLocaleDateString(undefined, { weekday: "long" })
+				}}
+			</h2>
+			<p class="current-weather-card-header-date">
+				{{ weatherData.forecast.forecastday[activeIndex].date }}
+			</p>
 			<div class="current-weather-card-header-city">
 				<img
 					class="current-weather-card-header-city__icon"
 					src="../assets/location.svg"
 					alt="City icon"
-				/>Kyiv
+				/>{{ weatherData.location.name }}
 			</div>
 		</div>
 		<div class="current-weather-card-temp">
-			<IconSun :size="95" :color="'var(--primary-text-color)'" />
-			<p class="current-weather-card-temp-value">32 °C</p>
-			<p class="current-weather-card-temp-text">Sunny</p>
+			<IconCloud
+				v-if="iconCode <= 1003"
+				:size="95"
+				:color="'var(--primary-text-color)'"
+			/>
+			<IconRain
+				v-if="iconCode >= 1006 && iconCode <= 1063"
+				:size="95"
+				:color="'var(--primary-text-color)'"
+			/>
+			<IconSun
+				v-if="iconCode >= 1064"
+				:size="95"
+				:color="'var(--primary-text-color)'"
+			/>
+			<p class="current-weather-card-temp-value">
+				{{
+					Math.round(
+						weatherData.forecast.forecastday[activeIndex].day.avgtemp_c
+					)
+				}}
+				°C
+			</p>
+			<p class="current-weather-card-temp-text">
+				{{ weatherData.forecast.forecastday[activeIndex].day.condition.text }}
+			</p>
 		</div>
 	</div>
 </template>
@@ -66,9 +108,6 @@ div.current-weather-card-header-city {
 
 img.current-weather-card-header-city__icon {
 	scale: 0.8;
-}
-
-div.current-weather-card-temp {
 }
 
 p.current-weather-card-temp-value {
