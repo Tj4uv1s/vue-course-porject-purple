@@ -5,6 +5,7 @@ import { computed, onMounted, reactive, ref, provide, watch } from "vue"
 import { cityProvide, API_ENDPOINT, API_KEY } from "./constants.js"
 
 let city = ref("kyiv")
+provide(cityProvide, city)
 
 watch(city, () => {
 	getCity(city.value)
@@ -14,7 +15,6 @@ onMounted(() => {
 	getCity(city.value)
 })
 
-provide(cityProvide, city)
 const errorMessage = ref(null)
 const isErrorShow = computed(() => errorMessage.value !== null)
 const activeIndex = ref(0)

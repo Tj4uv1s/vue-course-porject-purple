@@ -61,7 +61,7 @@ const dataModified = computed(() => [
 	<div class="main-weather-stat">
 		<Stat
 			v-if="!isErrorShow"
-			v-for="(item, index) in dataModified"
+			v-for="item in dataModified"
 			v-bind="item"
 			:key="item.label"
 		></Stat>
